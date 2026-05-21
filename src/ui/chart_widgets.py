@@ -2,9 +2,10 @@ import pandas as pd
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QComboBox, QHBoxLayout, QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 from src.ui import theme
+from src.ui.widgets import DropdownComboBox
 
 
 class MplCanvas(FigureCanvasQTAgg):
@@ -29,27 +30,29 @@ class ChartPanel(QWidget):
 
         # Header
         header = QWidget()
+        header.setObjectName("ChartPanelHeader")
         hl = QHBoxLayout(header)
-        hl.setContentsMargins(2, 2, 2, 0)
-        hl.setSpacing(8)
+        hl.setContentsMargins(14, 10, 14, 8)
+        hl.setSpacing(10)
         self._title_lbl = QLabel("")
         self._title_lbl.setStyleSheet(
             f"color:{theme.TEXT}; font-weight:600; font-size:13px;"
         )
-        hl.addWidget(self._title_lbl)
-        hl.addStretch(1)
+        hl.addWidget(self._title_lbl, 1)
 
-        chart_lbl = QLabel("Type:")
-        chart_lbl.setStyleSheet(f"color:{theme.TEXT_MUTED}; font-size:11px;")
-        hl.addWidget(chart_lbl)
+        chart_lbl = QLabel("Chart type")
+        chart_lbl.setStyleSheet(
+            f"color:{theme.TEXT_MUTED}; font-size:11px; font-weight:600;"
+        )
+        hl.addWidget(chart_lbl, 0, Qt.AlignVCenter)
 
-        self.type_combo = QComboBox()
-        self.type_combo.addItems(self.CHART_TYPES)
-        if default_type in self.CHART_TYPES:
-            self.type_combo.setCurrentText(default_type)
-        self.type_combo.setFixedWidth(140)
+        self.type_combo = DropdownComboBox(
+            items=self.CHART_TYPES,
+            current=default_type if default_type in self.CHART_TYPES else None,
+            min_width=172,
+        )
         self.type_combo.currentTextChanged.connect(self._redraw)
-        hl.addWidget(self.type_combo)
+        hl.addWidget(self.type_combo, 0, Qt.AlignVCenter)
 
         # Layout
         outer = QVBoxLayout(self)
@@ -57,7 +60,18 @@ class ChartPanel(QWidget):
         outer.setSpacing(4)
         outer.addWidget(header)
         outer.addWidget(self.canvas, 1)
-        self.setStyleSheet(f"background-color: {theme.BG};")
+        self.setObjectName("ChartPanel")
+        self.setStyleSheet(
+            f"QWidget#ChartPanel {{"
+            f"  background-color: {theme.BG};"
+            f"  border: 1px solid {theme.BORDER};"
+            f"  border-radius: 6px;"
+            f"}}"
+            f"QWidget#ChartPanelHeader {{"
+            f"  background: {theme.BG_PANEL};"
+            f"  border-bottom: 1px solid {theme.BORDER};"
+            f"}}"
+        )
 
         # Stored dataset (set_data + chart-type combo drive redraws)
         self._df: pd.DataFrame | None = None

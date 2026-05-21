@@ -7,7 +7,26 @@ Cast-in-Place Concrete,600,2400,Cameroon cast-in-place concrete
 Precast Concrete,720,2400,Cameroon precast (limited local production; mostly road kerbs / hollow blocks)
 Lean Concrete,420,2300,Cameroon lean mix (C15) for blinding
 Cement Mortar,520,2100,Cameroon mortar with CIMENCAM CEM II cement
-Cement,820000,3150,"Cement powder (CIMENCAM CEM II/B-LL); ~290 kgCO2e/t (Habert; ECRA Africa)"
+Mortar,520,2100,Cameroon mortar / mason's mix
+Render,520,2100,Cameroon cement-sand render
+Screed,480,2100,Cameroon cement screed
+Cement,820,3150,"Cement powder used in Cameroon; volumetric factor corrected from erroneous 820000 to 820 kgCO2e/m3"
+CEM II Cement,820,3150,"CIMENCAM CEM II class cement used for mortars, blocks and general concrete in Cameroon"
+CEM I Cement,900,3150,"Higher-clinker Portland cement used in Cameroon for higher-strength and white-cement applications"
+CIMENCAM MULTIX,820,3150,"CIMENCAM MULTIX (CEM IV B-P 32.5 R) multi-use cement sold in Cameroon"
+CIMENCAM ROBUST,820,3150,"CIMENCAM ROBUST (CEM II B-P 42.5 R) cement sold in Cameroon"
+CIMENCAM HYDRO,820,3150,"CIMENCAM HYDRO (CEM II B-P 42.5 R) hydrophobic cement sold in Cameroon"
+CIMENCAM KOSTO,900,3150,"CIMENCAM KOSTO (CEM I 42.5 R) cement sold in Cameroon"
+CIMENCAM SUBLIM,900,3150,"CIMENCAM SUBLIM (white CEM I 42.5 R) cement sold in Cameroon"
+Dangote Cement 32.5R,780,3150,"Dangote Cameroon CEM II 32.5R; lower clinker content than 42.5R product"
+Dangote 3X Cement 42.5R,820,3150,"Dangote Cameroon 3X Cement 42.5R CEM II / CEM II-AL grade"
+Dangote Cement 52.5,900,3150,"Dangote Cameroon CEM I 52.5 for major infrastructure works"
+CIMAF Cement 42.5R,820,3150,"CIMAF cement sold in Cameroon; 42.5R class widely marketed for general concrete and mortar"
+Medcem Cement 42.5R,820,3150,"Medcem cement sold in Cameroon; 42.5R class"
+Medcem Cement 35,780,3150,"Medcem Cameroon CPJ 35 / CEM 35 class cement"
+Mira Cement 42.5R,820,3150,"MIRA CO CEM II 42.5R sold across the Cameroon market"
+CIMPOR Cement 42.5R,820,3150,"CIMPOR Cameroon 42.5R cement sold from Kribi operations"
+CIMPOR Cement 32.5,780,3150,"CIMPOR Powercem 32.5 cement launched in Cameroon"
 Steel,14000,7850,"Imported structural steel (Nigeria/Turkey/China avg), ~1.78 kgCO2e/kg"
 Structural Steel,14000,7850,Imported structural steel
 Rebar,13500,7850,"Imported rebar (Nigeria/Turkey EAF mix), ~1.72 kgCO2e/kg"
@@ -37,6 +56,7 @@ Earth Block,90,1800,Cameroon stabilised earth block
 Laterite Block,55,1900,Cameroon laterite block (locally quarried)
 Rammed Earth,70,1900,Cameroon rammed earth (5% cement stabilised)
 Mud Brick,40,1700,Cameroon traditional mud / adobe brick (sun-dried)
+Adobe,40,1700,Cameroon adobe / sun-dried earth brick
 Plasterboard,340,800,Imported plasterboard via Douala port
 Gypsum Wall Board,340,800,Imported gypsum wallboard (Revit default name)
 Gypsum Board,340,800,Imported gypsum wallboard
@@ -45,6 +65,13 @@ Insulation,800,30,Imported mineral wool (rarely used in Cameroon residential)
 Polystyrene,1200,25,Imported EPS insulation
 Tile,830,2000,Imported ceramic tile (Spain/Italy/China) + transport
 Bitumen,310,1100,Imported bitumen for roofing / waterproofing
+Micro-Concrete Roofing Tile,650,2200,Micro-concrete roofing tile used in Cameroon housing
+Concrete Roof Tile,650,2200,Concrete roofing tile
+Galvanized Steel Sheet,15000,7850,Roofing or cladding sheet common in Cameroon construction
+Aluzinc Sheet,15000,7850,Aluzinc roofing sheet manufactured and sold in Cameroon
+Roofing Sheet,15000,7850,Default Cameroon metal roofing sheet
+Metal Roofing,15000,7850,Default Cameroon metal roof cladding
+Aluminium Roofing Sheet,22000,2700,Aluminium roofing sheet sold in Cameroon
 Asphalt,140,2400,Cameroon road asphalt mix
 Sand,8,1600,Cameroon river sand (local aggregate)
 Gravel,9,1700,Cameroon crushed stone / gravel

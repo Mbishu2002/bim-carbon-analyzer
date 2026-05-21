@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 from PySide6.QtCore import QSize, Qt, QSettings, QThread, Signal
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QButtonGroup,
@@ -37,6 +38,7 @@ from src.core import BIMMasterExtractor, CarbonCalculator, IFCImporter
 from src.core.paths import app_data_dir, resource_path
 from src.ui import theme
 from src.ui.chart_widgets import ChartPanel
+from src.ui.widgets import DropdownComboBox, TableCellComboBox
 
 
 OUTPUT_DIR = app_data_dir() / "output"
@@ -97,7 +99,7 @@ class KpiCard(QFrame):
 
 
 class ActivityButton(QToolButton):
-    """Sidebar nav item: icon stacked above its label, VS Code style."""
+    """Sidebar nav item: icon stacked above its label."""
 
     def __init__(self, label: str, icon_name: str | None = None, parent=None):
         super().__init__(parent)
@@ -192,6 +194,62 @@ class MainWindow(QMainWindow):
         self._build_ui()
         self._build_status()
         self._update_chrome()
+
+    @staticmethod
+    def _material_family_tokens() -> dict[str, tuple[str, ...]]:
+        return {
+            "masonry": ("masonry", "msonry", "block", "cmu", "brick"),
+            "earth": ("earth", "adobe", "laterite", "rammed", "ceb", "mud"),
+            "concrete": (
+                "concrete", "cement", "mortar", "render", "screed",
+                "precast", "cast-in-place",
+            ),
+            "steel": ("steel", "rebar", "reinforcement"),
+            "roofing": ("roof", "roofing", "sheet", "aluzinc", "galvanized", "galvanised"),
+            "aluminium": ("aluminium", "aluminum"),
+            "timber": (
+                "timber", "wood", "hardwood", "softwood", "iroko",
+                "sapele", "ayous", "glulam", "clt",
+            ),
+            "glass": ("glass", "glazing"),
+            "gypsum": ("gypsum", "plasterboard", "drywall", "plaster"),
+            "insulation": ("insulation", "polystyrene", "eps", "wool"),
+            "tile": ("tile", "ceramic"),
+            "bitumen": ("bitumen", "waterproof", "membrane"),
+            "asphalt": ("asphalt",),
+            "aggregate": ("sand", "gravel", "stone", "aggregate"),
+            "plastic": ("pvc",),
+            "copper": ("copper",),
+            "paint": ("paint", "coating"),
+        }
+
+    def _family_for_name(self, material_name: str) -> str | None:
+        name = str(material_name or "").strip().lower()
+        if not name or name == "(unspecified)":
+            return None
+
+        for family, tokens in self._material_family_tokens().items():
+            if any(token in name for token in tokens):
+                return family
+        return None
+
+    def _choices_for_ifc_material(self, ifc_material: str, suggested: str) -> list[str]:
+        family = self._family_for_name(ifc_material) or self._family_for_name(suggested)
+        if family is None:
+            return self.lca_choices
+
+        family_choices = [
+            choice for choice in self.lca_choices
+            if self._family_for_name(choice) == family
+        ]
+        if not family_choices:
+            return self.lca_choices
+
+        ordered: list[str] = []
+        for option in [suggested, *family_choices, "Unknown", "Composite"]:
+            if option in self.lca_choices and option not in ordered:
+                ordered.append(option)
+        return ordered
 
     # =============================================
     # LAYOUT
@@ -306,7 +364,7 @@ class MainWindow(QMainWindow):
         w = QWidget()
         lay = QHBoxLayout(w)
         lay.setContentsMargins(24, 12, 24, 0)
-        lay.setSpacing(8)
+        lay.setSpacing(12)
 
         for label, attr in (("Category", "cb_category"),
                             ("Storey", "cb_storey"),
@@ -314,8 +372,7 @@ class MainWindow(QMainWindow):
             l = QLabel(label)
             l.setStyleSheet(f"color: {theme.TEXT_MUTED};")
             lay.addWidget(l)
-            cb = QComboBox()
-            cb.setMinimumWidth(160)
+            cb = DropdownComboBox(min_width=168)
             cb.currentTextChanged.connect(self.refresh_view)
             setattr(self, attr, cb)
             lay.addWidget(cb)
@@ -493,9 +550,15 @@ class MainWindow(QMainWindow):
             ["IFC Material", "Elements", "Volume (m3)", "Auto-suggested", "Override (used)"]
         )
         self.mapping_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.mapping_table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.mapping_table.verticalHeader().setVisible(False)
         self.mapping_table.setAlternatingRowColors(True)
+        theme.configure_excel_table(self.mapping_table)
+        map_hdr = self.mapping_table.horizontalHeader()
+        map_hdr.setStretchLastSection(True)
+        map_hdr.setSectionResizeMode(0, QHeaderView.Stretch)
+        for col in (1, 2, 3):
+            map_hdr.setSectionResizeMode(col, QHeaderView.ResizeToContents)
+        map_hdr.setSectionResizeMode(4, QHeaderView.Stretch)
         lay.addWidget(self.mapping_table, 1)
 
         btn_row = QHBoxLayout()
@@ -547,6 +610,7 @@ class MainWindow(QMainWindow):
         self.table.setAlternatingRowColors(True)
         self.table.verticalHeader().setVisible(False)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        theme.configure_excel_table(self.table)
         lay.addWidget(self.table)
         return page
 
@@ -878,23 +942,28 @@ class MainWindow(QMainWindow):
             self.mapping_table.setItem(r, 2, item_vol)
 
             item_sug = QTableWidgetItem(suggested)
-            item_sug.setForeground(Qt.gray)
+            item_sug.setForeground(QColor(theme.TEXT_MUTED))
             self.mapping_table.setItem(r, 3, item_sug)
 
-            combo = QComboBox()
-            combo.addItems(self.lca_choices)
-            combo.setCurrentText(suggested)
-            combo.setToolTip(
-                "Pick the Cameroon LCA material this IFC material represents"
+            combo = TableCellComboBox(
+                self._choices_for_ifc_material(ifc_mat, suggested),
+                suggested,
             )
+            combo.setToolTip(
+                "Pick a compatible Cameroon LCA material for this IFC material"
+            )
+            self.mapping_table.setRowHeight(r, theme.TABLE_COMBO_ROW_HEIGHT)
             self.mapping_table.setCellWidget(r, 4, combo)
-        self.mapping_table.resizeColumnsToContents()
+        for col in (1, 2, 3):
+            self.mapping_table.resizeColumnToContents(col)
 
     def reset_mapping(self):
         for r in range(self.mapping_table.rowCount()):
             suggested_item = self.mapping_table.item(r, 3)
             combo = self.mapping_table.cellWidget(r, 4)
-            if suggested_item and isinstance(combo, QComboBox):
+            if suggested_item and isinstance(
+                combo, (QComboBox, TableCellComboBox, DropdownComboBox)
+            ):
                 combo.setCurrentText(suggested_item.text())
 
     def current_material_map(self) -> dict[str, str]:
@@ -902,7 +971,9 @@ class MainWindow(QMainWindow):
         for r in range(self.mapping_table.rowCount()):
             ifc_item = self.mapping_table.item(r, 0)
             combo = self.mapping_table.cellWidget(r, 4)
-            if ifc_item is None or not isinstance(combo, QComboBox):
+            if ifc_item is None or not isinstance(
+                combo, (QComboBox, TableCellComboBox, DropdownComboBox)
+            ):
                 continue
             ifc_mat = ifc_item.text()
             if ifc_mat == "(unspecified)":
