@@ -1,0 +1,57 @@
+Material,EC_factor_kgCO2e_per_m3,Density_kg_per_m3,Source
+Concrete,600,2400,"Cameroon C25/30 with CIMENCAM CEM II/B-LL clinker mix; approx. 290 kgCO2e/t cement (ECRA Africa avg)"
+Reinforced Concrete,900,2500,"Cameroon C25/30 + imported rebar (~80 kg/m3); steel EF from West-African imports"
+In-situ Concrete,600,2400,Cameroon in-situ concrete
+Concrete Cast-in-Place,600,2400,Cameroon cast-in-place concrete (Revit naming)
+Cast-in-Place Concrete,600,2400,Cameroon cast-in-place concrete
+Precast Concrete,720,2400,Cameroon precast (limited local production; mostly road kerbs / hollow blocks)
+Lean Concrete,420,2300,Cameroon lean mix (C15) for blinding
+Cement Mortar,520,2100,Cameroon mortar with CIMENCAM CEM II cement
+Cement,820000,3150,"Cement powder (CIMENCAM CEM II/B-LL); ~290 kgCO2e/t (Habert; ECRA Africa)"
+Steel,14000,7850,"Imported structural steel (Nigeria/Turkey/China avg), ~1.78 kgCO2e/kg"
+Structural Steel,14000,7850,Imported structural steel
+Rebar,13500,7850,"Imported rebar (Nigeria/Turkey EAF mix), ~1.72 kgCO2e/kg"
+Reinforcement,13500,7850,Imported reinforcement bar
+Aluminium,22000,2700,Imported aluminium profiles (world avg + sea freight to Douala)
+Glass,1600,2500,Imported flat glass (Egypt/Turkey origin) + transport
+Tropical Hardwood,250,700,"Cameroon tropical hardwood (Iroko/Sapele/Ayous); local sawmill; no biogenic credit"
+Iroko,260,650,Cameroon Iroko - local sawmill
+Sapele,260,640,Cameroon Sapele - local sawmill
+Ayous,210,380,Cameroon Ayous (Obeche) - local sawmill (low density)
+Hardwood,250,700,Cameroon tropical hardwood
+Softwood,350,500,Imported pine / softwood (limited local production)
+Timber,250,700,Cameroon tropical hardwood (default)
+Glulam,600,470,Imported glulam (no local production)
+CLT,550,470,Imported CLT (no local production)
+Brick,720,1700,Cameroon fired clay brick (artisanal wood-fired kilns dominate)
+Fired Clay Brick,720,1700,Cameroon artisanal fired clay brick
+Blockwork,200,1400,Cameroon hollow concrete block (parpaing) - dominant wall material
+Hollow Concrete Block,200,1400,Cameroon hollow concrete block (parpaing)
+Concrete Block,200,1400,Cameroon concrete block
+Masonry,200,1400,Cameroon masonry (default hollow concrete block)
+Concrete Masonry Units,200,1400,Cameroon CMU - hollow concrete block (parpaing)
+CMU,200,1400,Cameroon CMU - hollow concrete block
+Compressed Earth Block,100,1800,Cameroon CEB / BTC (stabilised with 5-8% CIMENCAM cement)
+CEB,100,1800,Cameroon compressed earth block
+Earth Block,90,1800,Cameroon stabilised earth block
+Laterite Block,55,1900,Cameroon laterite block (locally quarried)
+Rammed Earth,70,1900,Cameroon rammed earth (5% cement stabilised)
+Mud Brick,40,1700,Cameroon traditional mud / adobe brick (sun-dried)
+Plasterboard,340,800,Imported plasterboard via Douala port
+Gypsum Wall Board,340,800,Imported gypsum wallboard (Revit default name)
+Gypsum Board,340,800,Imported gypsum wallboard
+Plaster,360,950,Imported gypsum plaster
+Insulation,800,30,Imported mineral wool (rarely used in Cameroon residential)
+Polystyrene,1200,25,Imported EPS insulation
+Tile,830,2000,Imported ceramic tile (Spain/Italy/China) + transport
+Bitumen,310,1100,Imported bitumen for roofing / waterproofing
+Asphalt,140,2400,Cameroon road asphalt mix
+Sand,8,1600,Cameroon river sand (local aggregate)
+Gravel,9,1700,Cameroon crushed stone / gravel
+Stone,80,2600,Cameroon dimension stone
+PVC,3200,1400,Imported PVC pipes / profiles
+Copper,30000,8900,Imported copper (electrical / plumbing)
+Paint,1900,1300,Imported architectural paint
+Unknown,500,2000,Fallback - verify material mapping
+Composite,500,2000,Fallback for unresolved composite assemblies
+Msonry,200,1400,Alias for Masonry (typo seen in Revit families); Cameroon hollow concrete block

@@ -1,0 +1,7 @@
+ifcopenshell
+pandas
+numpy
+openpyxl
+matplotlib
+PySide6
+qtawesome

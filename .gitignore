@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+*.manifest
+*.spec.bak
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# PyInstaller / packaging
+*.exe
+*.msi
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+credentials.json
+
+# Testing / tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Logs & local output
+*.log
+logs/
+output/
+exports/
+
+# Jupyter
+.ipynb_checkpoints/
